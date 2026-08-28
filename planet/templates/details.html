@@ -1,0 +1,8 @@
+{% extends "master.html" %} {% block title %} Details about {{
+myplanet.firstname }} {{ myplanet.lastname }} {% endblock %} {% block content %}
+<div class="mycard">
+  <h1>{{ myplanet.firstname }} {{ myplanet.lastname }}</h1>
+  <p>Phone {{ myplanet.phone }}</p>
+  <p>Member since: {{ myplanet.dob }}</p>
+</div>
+{% endblock %}

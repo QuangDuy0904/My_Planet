@@ -1,0 +1,25 @@
+{% load static %}
+<!doctype html>
+<html>
+  <link rel="stylesheet" href="{% static 'global.css' %}" />
+  <body>
+    {% include "mymenu.html" with me="TOBIAS" sponsor="W3SCHOOLS" %}
+
+    <h1>Welcome</h1>
+
+    <p>This is my webpage</p>
+    <p>The queryset object:</p>
+    {{ myplanets }}
+    <p>Loop through the items:</p>
+    <table border="1">
+      {% for x in myplanets %}
+      <tr>
+        <td>{{ x }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% for x in fruits %}
+    <h1>{{ x }}</h1>
+    {% endfor %}
+  </body>
+</html>
