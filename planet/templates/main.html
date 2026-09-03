@@ -1,10 +1,27 @@
-{% extends "master.html" %} {% block title %} My Tennis Club {% endblock %}
-{%block content %}
+{% extends "master.html" %} {% block title %} My Tennis Club {% endblock %} {%
+block content %}
 <div class="main">
-  <h1>My Tennis Club</h1>
+  <h1>My Planet</h1>
 
   <h3>Members</h3>
 
   <p>Check out all our <a href="planets/">planets</a></p>
+
+  <div style="margin-top: 20px">
+    <a
+      href="{% url 'register' %}"
+      style="
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+      "
+    >
+      Đăng ký thành viên ngay
+    </a>
+  </div>
 </div>
 {% endblock %}
