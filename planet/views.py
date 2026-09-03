@@ -42,4 +42,4 @@ def register(request):
     if form.is_valid():
       form.save()
       return HttpResponseRedirect('/')
-  return render(request, 'pages/register.html', {'form':form})  
+  return render(request, 'register.html', {'form':form})  
