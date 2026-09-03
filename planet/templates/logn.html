@@ -1,0 +1,50 @@
+<!doctype html>
+< lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+  </head>
+  <style>
+    form {
+      margin-left: 10rem;
+      width: 70%;
+      border: 1px solid black;
+      border-radius: 10px;
+    }
+    .form-input {
+      margin-left: 2rem;
+      margin-top: 1rem;
+      width: 92%;
+      text-align: left;
+    }
+    .form-input input {
+      background-color: #e8f0fe;
+    }
+  </style>
+  <body>
+  <div class="wrapper style1">
+    <div class="inner">
+      <section class="container box feature1">
+        <div class="row"><a href="/"><i style="font-size:30px" class="fas fa-home"></i></a></div>
+        <h1>ĐĂNG NHẬP TÀI KHOẢN</h1>
+        <form action="/login/" method="POST" class="box">
+          {% csrf_token %} {% for key, value in form.errors.items %} {{value}}
+          {%endfor %}
+          <div class="form-input">
+            <label type="text">Username:</label>
+            <input type="text" class="form-control" id="username" name="username">
+          </div>
+          <div class="form-input">
+            <label type="password">Password:</label>
+            <input type="password" class="form-control" id="password" name="password">
+          </div>
+          <input type="hidden" name="next" value="/" />
+          <input type="submit" value="ĐĂNG NHẬP" />
+          <span>Or <a href="/register">Đăng Ký</a></span>
+        </form>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

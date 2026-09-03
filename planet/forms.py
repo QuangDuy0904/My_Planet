@@ -1,6 +1,7 @@
 from django import forms
 import re
 from django.contrib.auth.models import User
+from .models import Post
 
 class RegistrationForm(forms.Form):
     username = forms.CharField(label='Tài khoản')
@@ -32,3 +33,13 @@ class RegistrationForm(forms.Form):
             email=self.cleaned_data['email'],
             password=self.cleaned_data['password1']
         )
+
+class BlogPostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ('title', 'description', 'content', 'image')
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Title of the Blog'}),
+            'description': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Copy the title with no space and a hyphen in between'}),
+            'content': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Content of the Blog'}),
+        }        

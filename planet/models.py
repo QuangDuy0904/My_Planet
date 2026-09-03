@@ -1,4 +1,7 @@
 from django.db import models
+from django.conf import settings
+from django.contrib.auth.models import User
+from django.urls import reverse
 
 # Create your models here.
 class Planet(models.Model):
@@ -9,3 +12,14 @@ class Planet(models.Model):
 
   def __str__(self):
     return f"{self.firstname} {self.lastname}"
+
+class Post(models.Model):
+    title = models.CharField(max_length=100)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    description = models.TextField()
+    content = models.TextField()
+    image = models.ImageField(null=True)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def get_absolute_url(self):
+        return reverse('blog')
