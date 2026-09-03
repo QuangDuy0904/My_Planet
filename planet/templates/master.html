@@ -7,8 +7,14 @@
   </head>
   <body>
     <div class="topnav">
-      <a href="/">HOME</a> | <a href="/planets">MEMBERS</a> |
+      <a href="/">HOME</a> | <a href="/planets">MEMBERS</a> | {% if
+      user.is_authenticated %}
+      <span>Xin chào, <strong>{{ user.username }}</strong></span> |
+      <a href="/logout/">ĐĂNG XUẤT</a>
+      {% else %}
+      <a href="/login/">ĐĂNG NHẬP</a> |
       <a href="{% url 'register' %}">ĐĂNG KÝ</a>
+      {% endif %}
     </div>
 
     {% block content %} {% endblock %}
