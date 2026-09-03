@@ -1,6 +1,9 @@
 from django.http import HttpResponse
 from django.template import loader
 from .models import Planet
+from django.shortcuts import render
+from .forms import RegistrationForm
+from django.http import HttpResponseRedirect
 
 def planet(request):
   myplanet = Planet.objects.all().values()
@@ -31,3 +34,12 @@ def testing(request):
    'fruits': ['Apple', 'Banana', 'Cherry'],  
   }
   return HttpResponse(template.render(context, request))
+
+def register(request):
+  form = RegistrationForm()
+  if request.method == 'POST':
+    form = RegistrationForm(request.POST)
+    if form.is_valid():
+      form.save()
+      return HttpResponseRedirect('/')
+  return render(request, 'pages/register.html', {'form':form})  
