@@ -62,8 +62,8 @@ def Login(request):
             return HttpResponseRedirect("/")
         else:
             messages.error(request, "Invalid Credentials")
-            return render(request, 'pages/login.html')
-    return render(request, "pages/login.html")
+            return render(request, 'login.html')
+    return render(request, "login.html")
 
 def Logout(request):
     logout(request)
@@ -80,7 +80,7 @@ def add_blogs(request):
             blogpost.save()
             obj = form.instance
             alert = True
-            return render(request, "pages/add_blog.html",{'obj':obj, 'alert':alert})
+            return render(request, "add_blog.html",{'obj':obj, 'alert':alert})
     else:
         form=BlogPostForm()
-    return render(request, "pages/add_blog.html", {'form':form})
+    return render(request, "add_blog.html", {'form':form})
