@@ -2,3 +2,20 @@ body {
   background-color: pink;
   font-family: verdana;
 }
+form {
+  margin-left: 10rem;
+  width: 70%;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.form-input {
+  margin-left: 2rem;
+  margin-top: 1rem;
+  width: 92%;
+  text-align: left;
+}
+
+.form-input input {
+  background-color: #e8f0fe;
+}
