@@ -1,23 +1,24 @@
 {% load static %}
-<!doctype html>
+<!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" href="{% static 'mystyles.css' %}" />
-    <title>{% block title %}{% endblock %}</title>
-  </head>
+<head>
+  <link rel="stylesheet" href="{% static 'mystyles.css' %}">
+  <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+  <div class="topnav">
+    <a href="/">HOME</a> | 
+    <a href="/planets/">MEMBERS</a> | 
+    {% if user.is_authenticated %}
+      <span>Xin ch�o, <strong>{{ user.username }}</strong></span> | 
+      <a href="/logout/">�ANG XU?T</a>
+    {% else %}
+      <a href="/login/">�ANG NH?P</a> | 
+      <a href="{% url 'register' %}">�ANG K�</a>
+    {% endif %}
+  </div>
 
-  <body>
-    <div class="topnav">
-      <a href="/">HOME</a> | <a href="/planets/">MEMBERS</a> | {% if
-      user.is_authenticated %}
-      <span>Xin chào, <strong>{{ user.username }}</strong></span> |
-      <a href="/logout/">ĐĂNG XUẤT</a>
-      {% else %}
-      <a href="/login/">ĐĂNG NHẬP</a> |
-      <a href="{% url 'register' %}">ĐĂNG KÝ</a>
-      {% endif %}
-    </div>
-
-    {% block content %} {% endblock %}
-  </body>
+  {% block content %}
+  {% endblock %}
+</body>
 </html>
