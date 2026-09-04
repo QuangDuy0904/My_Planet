@@ -1,0 +1,47 @@
+{% extends "master.html" %} {% block title %} {{ post.title }} {% endblock %}
+{%block content %}
+<h2>{{ post.title }}</h2>
+<p><i>Ngày đăng: {{ post.created_at }}</i></p>
+<hr />
+<p>{{ post.body }}</p>
+<div
+  class="col"
+  style="
+    margin-left: 50px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  "
+>
+  <h3 class="center">
+    <a
+      href="/blog/{{post.id}}/"
+      style="text-decoration: none; color: chocolate"
+    >
+      {{post.title}}
+    </a>
+  </h3>
+  <center>
+    <img
+      src="{{post.image.url}}"
+      width="200px"
+      height="170px"
+      style="object-fit: cover"
+    />
+  </center>
+  <p style="text-align: justify">{{post.body|safe|linebreaks}}</p>
+  <audio src="{{post.audio.url}}" controls></audio>
+  <a
+    href="/blog/"
+    style="
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      text-decoration: none;
+    "
+  >
+    <button>Quay lại</button>
+  </a>
+</div>
+{% endblock %}

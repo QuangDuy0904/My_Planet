@@ -23,3 +23,12 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('blog')
+
+class Post1(models.Model):
+    title = models.CharField(max_length=100)
+    body = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
+    image = models.ImageField(upload_to='posts/', null=True, blank=True)
+    audio = models.FileField(upload_to='madia/music', null=True)
+    def __str__(self):
+        return self.title
