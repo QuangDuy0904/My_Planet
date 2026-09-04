@@ -22,7 +22,7 @@ class Post(models.Model):
     date = models.DateTimeField(auto_now_add=True)
 
     def get_absolute_url(self):
-        return reverse('blog')
+        return reverse('post_detail', args=[str(self.id)])
 
 class Post1(models.Model):
     title = models.CharField(max_length=100)

@@ -15,31 +15,30 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
-from django.urls import re_path
-from django.views.static import serve
+from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
-from django.conf.urls import handler404
-from django.conf.urls import handler500
+from django.views.static import serve
 
 urlpatterns = [
     path('', include('planet.urls')),
     path('admin/', admin.site.urls),
-    path('blog/', include('blog.urls')),
+    # Bật dòng dưới nếu bạn đã tạo riêng app 'blog':
+    # path('blog/', include('blog.urls')),
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Cấu hình phục vụ file media (ảnh, audio)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += [
     re_path(
         r"^media/(?P<path>.*)$",
         serve,
-        {
-            "document_root": settings.MEDIA_ROOT,
-        },
+        {"document_root": settings.MEDIA_ROOT},
     ),
 ]
 
-handler404 = "home.views.error"
-handler500 = "home.views.error_500"
+# Chỉ bật nếu bạn ĐÃ tạo hàm error trong views của app 'planet':
+# handler404 = "planet.views.error"
+# handler500 = "planet.views.error_500"
