@@ -1,4 +1,4 @@
-{% load static %}
+﻿{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,11 +10,11 @@
     <a href="/">HOME</a> | 
     <a href="/planets/">MEMBERS</a> | 
     {% if user.is_authenticated %}
-      <span>Xin ch�o, <strong>{{ user.username }}</strong></span> | 
-      <a href="/logout/">�ANG XU?T</a>
+      <span>Xin chào, <strong>{{ user.username }}</strong></span> | 
+      <a href="/logout/">ĐĂNG XUẤT</a>
     {% else %}
-      <a href="/login/">�ANG NH?P</a> | 
-      <a href="{% url 'register' %}">�ANG K�</a>
+      <a href="/login/">ĐĂNG NHẬP</a> | 
+      <a href="{% url 'register' %}">ĐĂNG KÝ</a>
     {% endif %}
   </div>
 
