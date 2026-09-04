@@ -1,17 +1,38 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
-  </head>
-  <body>
-    <center>
-      <form action="." method="POST">
-        {% csrf_token %} {{form.as_p}}
-        <input type="submit" value="Đăng ký" />
-      </form>
-    </center>
-  </body>
-</html>
+{% extends "master.html" %} {% block title %}Đăng Ký Tài Khoản{% endblock %} {%
+block content %}
+<form method="POST">
+  {% csrf_token %}
+  <h1>ĐĂNG KÝ TÀI KHOẢN</h1>
+
+  <label for="id_username">Username:</label>
+  <input
+    type="text"
+    name="username"
+    id="id_username"
+    required
+    placeholder="Nhập tên đăng nhập"
+  />
+
+  <label for="id_password1">Password:</label>
+  <input
+    type="password"
+    name="password1"
+    id="id_password1"
+    required
+    placeholder="Nhập mật khẩu"
+  />
+
+  <label for="id_password2">Confirm Password:</label>
+  <input
+    type="password"
+    name="password2"
+    id="id_password2"
+    required
+    placeholder="Nhập lại mật khẩu"
+  />
+
+  <button type="submit">ĐĂNG KÝ</button>
+
+  <p>Đã có tài khoản? <a href="/login/">Đăng nhập</a></p>
+</form>
+{% endblock %}
