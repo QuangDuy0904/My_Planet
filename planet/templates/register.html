@@ -4,6 +4,22 @@
   {% csrf_token %}
   <h1>ĐĂNG KÝ TÀI KHOẢN</h1>
 
+  <!-- Hiển thị lỗi nếu có (ví dụ: trùng tài khoản, mật khẩu không khớp) -->
+  {% if form.errors %}
+  <div
+    style="
+      color: #721c24;
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 4px;
+    "
+  >
+    {{ form.errors }}
+  </div>
+  {% endif %}
+
   <label for="id_username">Username:</label>
   <input
     type="text"
@@ -11,6 +27,15 @@
     id="id_username"
     required
     placeholder="Nhập tên đăng nhập"
+  />
+
+  <label for="id_email">Email:</label>
+  <input
+    type="email"
+    name="email"
+    id="id_email"
+    required
+    placeholder="Nhập địa chỉ email"
   />
 
   <label for="id_password1">Password:</label>
