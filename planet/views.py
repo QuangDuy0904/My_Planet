@@ -42,7 +42,7 @@ def register(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, "Đăng ký thành công! Vui lòng đăng nhập.")
+            messages.success(request, "Đăng ký tài khoản thành công! Hãy đăng nhập ngay.")
             return HttpResponseRedirect('/login/')
     else:
         form = RegistrationForm()
