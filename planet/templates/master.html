@@ -9,8 +9,9 @@
   <body>
     <div class="topnav">
       <a href="/">HOME</a> | <a href="/planets/">MEMBERS</a>
-      | {% if user.is_authenticated %}
-      <span>Xin chào, <strong>{{ user.username }}</strong></span> |
+      | {% if user.is_authenticated %} {% if user.is_superuser %}
+      <span>Xin chào, <strong>Admin</strong></span> | {% else %}
+      <span>Xin chào, <strong>{{ user.username }}</strong></span> | {% endif %}
       <a href="/logout/">ĐĂNG XUẤT</a>
       {% else %}
       <a href="/login/">ĐĂNG NHẬP</a> |
