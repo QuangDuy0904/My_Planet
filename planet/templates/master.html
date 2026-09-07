@@ -8,8 +8,8 @@
 
   <body>
     <div class="topnav">
-      <a href="/">HOME</a> | <a href="/planets/">MEMBERS</a> | {% if
-      user.is_authenticated %}
+      <a href="/">HOME</a> | <a href="/planets/">MEMBERS</a>
+      | {% if user.is_authenticated %}
       <span>Xin chào, <strong>{{ user.username }}</strong></span> |
       <a href="/logout/">ĐĂNG XUẤT</a>
       {% else %}
