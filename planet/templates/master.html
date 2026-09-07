@@ -8,16 +8,17 @@
 
   <body>
     <div class="topnav">
-      <a href="/">HOME</a> | <a href="/planets/">MEMBERS</a>
-      | {% if user.is_authenticated %} {% if user.is_superuser %}
+      <a href="/">HOME</a> | <a href="/planets/">MEMBERS</a> |
+      <a href="{% url 'post_list' %}">BÀI VIẾT</a>
+      | {% if user.is_authenticated %}
+      <a href="/add_blogs/">ĐĂNG BÀI</a> | {% if user.is_superuser %}
       <span>Xin chào, <strong>Admin</strong></span> | {% else %}
       <span>Xin chào, <strong>{{ user.username }}</strong></span> | {% endif %}
       <a href="/logout/">ĐĂNG XUẤT</a>
       {% else %}
       <a href="/login/">ĐĂNG NHẬP</a> |
       <a href="{% url 'register' %}">ĐĂNG KÝ</a>
-      <a href="/">HOME</a> | <a href="/planets/">MEMBERS</a> |
-      <a href="{% url 'post_list' %}">BÀI VIẾT</a> | {% endif %}
+      {% endif %}
     </div>
 
     {% block content %}{% endblock %}
