@@ -6,6 +6,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Post1
 from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import user_passes_test
+from .forms import PostForm
 
 from .forms import RegistrationForm, BlogPostForm
 from .models import Planet, Post1
@@ -71,20 +73,27 @@ def Logout(request):
     messages.success(request, "Successfully logged out")
     return HttpResponseRedirect('/login')
 
-@login_required(login_url='/login')
+@user_passes_test(lambda u: u.is_staff, login_url='/login/')
 def add_blogs(request):
-    if request.method == "POST":
-        form = BlogPostForm(data=request.POST, files=request.FILES)
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
-            blogpost = form.save(commit=False)
-            blogpost.author = request.user
-            blogpost.save()
-            obj = form.instance
-            alert = True
-            return render(request, "add_blog.html", {'obj': obj, 'alert': alert})
+            form.save()
+            return redirect('post_list')
     else:
-        form = BlogPostForm()
-    return render(request, "add_blog.html", {'form': form})
+        form = PostForm()
+    return render(request, 'add_blog.html', {'form': form})
+
+@user_passes_test(lambda u: u.is_staff, login_url='/login/')
+def add_blogs(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('post_list')
+    else:
+        form = PostForm()
+    return render(request, 'add_blog.html', {'form': form})
 
 def post_list(request):
     posts = Post1.objects.all().order_by('-date')
