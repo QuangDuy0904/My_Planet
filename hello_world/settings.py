@@ -134,9 +134,8 @@ STATIC_ROOT = BASE_DIR / 'productionfiles'
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-]
-
+    os.path.join(BASE_DIR, 'static'),
+] if os.path.exists(os.path.join(BASE_DIR, 'static')) else []
 
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
@@ -169,14 +168,16 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 MEDIA_URL = '/media/'
 
 # Cho phép Cloudinary đọc được khi chạy collectstatic
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+# Dùng bộ lưu trữ mặc định của Django để collectstatic không quét nén gây lỗi file
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
-# Cấu hình STORAGES cho Django 5+
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
 }
+
+# Xóa bỏ cảnh báo W004 nếu thư mục static chưa tồn tại
