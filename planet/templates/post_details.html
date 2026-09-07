@@ -3,21 +3,20 @@
 <div
   style="
     max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background: #fff;
+    margin: 30px auto;
+    padding: 25px;
     border: 1px solid #ddd;
     border-radius: 8px;
+    background: #fff;
   "
 >
   <h1>{{ post.title }}</h1>
-  <p style="color: #777">
-    Đăng bởi: <strong>{{ post.author.username }}</strong> | {{
-    post.date|date:"d/m/Y H:i" }}
+  <p style="color: #888; font-size: 14px">
+    Ngày đăng: {{ post.date|date:"d/m/Y H:i" }}
   </p>
 
   {% if post.image %}
-  <div style="margin: 20px 0">
+  <div style="margin: 20px 0; text-align: center">
     <img
       src="{{ post.image.url }}"
       alt="{{ post.title }}"
@@ -28,12 +27,12 @@
   <div
     style="
       margin: 20px 0;
-      padding: 12px;
-      background: #f9f9f9;
-      border-radius: 6px;
+      padding: 15px;
+      background-color: #f1f3f4;
+      border-radius: 8px;
     "
   >
-    <p style="margin-bottom: 8px; font-weight: bold">🎧 Audio đính kèm:</p>
+    <p style="margin-bottom: 8px; font-weight: bold">🎧 Nghe Audio:</p>
     <audio controls style="width: 100%">
       <source src="{{ post.audio.url }}" type="audio/mpeg" />
       Trình duyệt không hỗ trợ phát âm thanh.
@@ -43,13 +42,13 @@
 
   <div
     style="
-      line-height: 1.6;
+      line-height: 1.8;
       font-size: 16px;
       margin-top: 20px;
       white-space: pre-line;
     "
   >
-    {{ post.content }}
+    {{ post.body }}
   </div>
 
   <p style="margin-top: 30px">

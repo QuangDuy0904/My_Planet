@@ -1,33 +1,30 @@
 {% extends "master.html" %} {% block title %}Danh Sách Bài Viết{% endblock %}
 {%block content %}
-<div style="max-width: 800px; margin: 20px auto; padding: 0 15px">
-  <h1>Bài Viết Mới Nhất</h1>
+<div style="max-width: 800px; margin: 30px auto; padding: 0 15px">
+  <h1>Danh Sách Bài Viết</h1>
 
   {% for post in posts %}
-  <div style="border-bottom: 1px solid #ddd; padding: 15px 0">
+  <div style="border-bottom: 1px solid #ddd; padding: 20px 0">
     <h2><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h2>
-    <p style="color: #666; font-size: 14px">
-      Tác giả: {{ post.author.username }} | Ngày: {{ post.date|date:"d/m/Y H:i"
-      }}
+    <p style="color: #666; font-size: 13px">
+      Ngày đăng: {{ post.date|date:"d/m/Y H:i" }}
     </p>
-    <p>{{ post.description }}</p>
+
     {% if post.image %}
-    <img
-      src="{{ post.image.url }}"
-      alt="{{ post.title }}"
-      style="
-        max-width: 250px;
-        height: auto;
-        border-radius: 6px;
-        display: block;
-        margin: 10px 0;
-      "
-    />
+    <div style="margin: 10px 0">
+      <img
+        src="{{ post.image.url }}"
+        alt="{{ post.title }}"
+        style="max-width: 300px; height: auto; border-radius: 6px"
+      />
+    </div>
     {% endif %}
-    <a href="{% url 'post_detail' post.id %}">Đọc tiếp &rarr;</a>
+
+    <p>{{ post.body|truncatewords:30 }}</p>
+    <a href="{% url 'post_detail' post.id %}">Xem chi tiết &rarr;</a>
   </div>
   {% empty %}
-  <p>Chưa có bài viết nào được đăng.</p>
+  <p>Chưa có bài viết nào.</p>
   {% endfor %}
 </div>
 {% endblock %}
