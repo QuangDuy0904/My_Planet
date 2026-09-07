@@ -28,7 +28,9 @@ SECRET_KEY = 'django-insecure-y)yb2^5kdoaresi&=luh1vbwuqdb+7=0-9apy(9%s115x75xgq
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
+CSRF_TRUSTED_ORIGINS = [
+    'https://my-planet-celg.onrender.com',
+]
 
 # Application definition
 
