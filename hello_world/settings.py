@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'cloudinary_storage',
     'django.contrib.staticfiles',
+    'cloudinary',
     'planet',
 ]
 
@@ -155,3 +157,13 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'w8fbtmlb',
+    'API_KEY': '538986594263924',
+    'API_SECRET': 'FIvqMDfHprleQmEMIKiysMKzRxM',
+    'RESOURCE_TYPE': 'auto',
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+MEDIA_URL = '/media/'

@@ -1,31 +1,50 @@
 {% extends "master.html" %} {% block title %}Danh Sách Bài Viết{% endblock %}
 {%block content %}
-<div style="max-width: 700px; margin: 40px auto; padding: 0 20px">
-  <h1 style="text-align: center; margin-bottom: 30px">Danh Sách Bài Viết</h1>
+<div
+  style="
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    clear: both;
+  "
+>
+  <h1 style="text-align: center; margin-bottom: 25px; color: #333">
+    Danh Sách Bài Viết
+  </h1>
 
-  <ul style="list-style: none; padding: 0">
+  <div style="display: flex; flex-direction: column; gap: 15px">
     {% for post in posts %}
-    <li style="border-bottom: 1px solid #e0e0e0; padding: 15px 0">
+    <div
+      style="
+        padding: 16px 20px;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        background: #fafafa;
+      "
+    >
       <a
         href="{% url 'post_detail' post.id %}"
         style="
+          display: inline-block;
           font-size: 20px;
-          font-weight: 600;
-          text-decoration: none;
+          font-weight: bold;
           color: #1a73e8;
+          text-decoration: none;
+          margin-bottom: 6px;
         "
       >
         {{ post.title }}
       </a>
-      <span
-        style="display: block; color: #777; font-size: 13px; margin-top: 5px"
-      >
+      <div style="color: #64748b; font-size: 13px">
         Ngày đăng: {{ post.date|date:"d/m/Y H:i" }}
-      </span>
-    </li>
+      </div>
+    </div>
     {% empty %}
-    <li style="text-align: center; color: #888">Chưa có bài viết nào.</li>
+    <p style="text-align: center; color: #888">Chưa có bài viết nào.</p>
     {% endfor %}
-  </ul>
+  </div>
 </div>
 {% endblock %}
