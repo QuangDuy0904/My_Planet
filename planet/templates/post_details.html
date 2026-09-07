@@ -1,0 +1,59 @@
+{% extends "master.html" %} {% block title %}{{ post.title }}{% endblock %}
+{%block content %}
+<div
+  style="
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  "
+>
+  <h1>{{ post.title }}</h1>
+  <p style="color: #777">
+    Đăng bởi: <strong>{{ post.author.username }}</strong> | {{
+    post.date|date:"d/m/Y H:i" }}
+  </p>
+
+  {% if post.image %}
+  <div style="margin: 20px 0">
+    <img
+      src="{{ post.image.url }}"
+      alt="{{ post.title }}"
+      style="max-width: 100%; height: auto; border-radius: 8px"
+    />
+  </div>
+  {% endif %} {% if post.audio %}
+  <div
+    style="
+      margin: 20px 0;
+      padding: 12px;
+      background: #f9f9f9;
+      border-radius: 6px;
+    "
+  >
+    <p style="margin-bottom: 8px; font-weight: bold">🎧 Audio đính kèm:</p>
+    <audio controls style="width: 100%">
+      <source src="{{ post.audio.url }}" type="audio/mpeg" />
+      Trình duyệt không hỗ trợ phát âm thanh.
+    </audio>
+  </div>
+  {% endif %}
+
+  <div
+    style="
+      line-height: 1.6;
+      font-size: 16px;
+      margin-top: 20px;
+      white-space: pre-line;
+    "
+  >
+    {{ post.content }}
+  </div>
+
+  <p style="margin-top: 30px">
+    <a href="{% url 'post_list' %}">&larr; Quay lại danh sách bài viết</a>
+  </p>
+</div>
+{% endblock %}

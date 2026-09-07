@@ -1,0 +1,33 @@
+{% extends "master.html" %} {% block title %}Danh Sách Bài Viết{% endblock %}
+{%block content %}
+<div style="max-width: 800px; margin: 20px auto; padding: 0 15px">
+  <h1>Bài Viết Mới Nhất</h1>
+
+  {% for post in posts %}
+  <div style="border-bottom: 1px solid #ddd; padding: 15px 0">
+    <h2><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h2>
+    <p style="color: #666; font-size: 14px">
+      Tác giả: {{ post.author.username }} | Ngày: {{ post.date|date:"d/m/Y H:i"
+      }}
+    </p>
+    <p>{{ post.description }}</p>
+    {% if post.image %}
+    <img
+      src="{{ post.image.url }}"
+      alt="{{ post.title }}"
+      style="
+        max-width: 250px;
+        height: auto;
+        border-radius: 6px;
+        display: block;
+        margin: 10px 0;
+      "
+    />
+    {% endif %}
+    <a href="{% url 'post_detail' post.id %}">Đọc tiếp &rarr;</a>
+  </div>
+  {% empty %}
+  <p>Chưa có bài viết nào được đăng.</p>
+  {% endfor %}
+</div>
+{% endblock %}

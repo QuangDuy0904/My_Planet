@@ -4,6 +4,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from .models import Post
+from django.shortcuts import render, get_object_or_404
 
 from .forms import RegistrationForm, BlogPostForm
 from .models import Planet, Post1
@@ -83,3 +85,11 @@ def add_blogs(request):
     else:
         form = BlogPostForm()
     return render(request, "add_blog.html", {'form': form})
+
+def post_list(request):
+    posts = Post.objects.all().order_by('-date')
+    return render(request, 'post_list.html', {'posts': posts})
+
+def post_detail(request, id):
+    post = get_object_or_404(Post, id=id)
+    return render(request, 'post_detail.html', {'post': post})

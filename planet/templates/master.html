@@ -16,7 +16,8 @@
       {% else %}
       <a href="/login/">ĐĂNG NHẬP</a> |
       <a href="{% url 'register' %}">ĐĂNG KÝ</a>
-      {% endif %}
+      <a href="/">HOME</a> | <a href="/planets/">MEMBERS</a> |
+      <a href="{% url 'post_list' %}">BÀI VIẾT</a> | {% endif %}
     </div>
 
     {% block content %}{% endblock %}
