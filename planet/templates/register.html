@@ -1,5 +1,18 @@
 {% extends "master.html" %} {% block title %}Đăng Ký Tài Khoản{% endblock %}
-{%block content %}
+{%block content %} {% if form.errors %}
+<div
+  style="
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+  "
+>
+  {{ form.errors }}
+</div>
+{% endif %}
 <form method="POST">
   {% csrf_token %}
   <h1>ĐĂNG KÝ TÀI KHOẢN</h1>

@@ -38,13 +38,15 @@ def testing(request):
     return HttpResponse(template.render(context, request))
 
 def register(request):
-    form = RegistrationForm()
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/')
-    return render(request, 'register.html', {'form': form})  
+            messages.success(request, "Đăng ký thành công! Vui lòng đăng nhập.")
+            return HttpResponseRedirect('/login/')
+    else:
+        form = RegistrationForm()
+    return render(request, 'register.html', {'form': form})
 
 def Login(request):
     if request.method == "POST":
