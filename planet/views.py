@@ -82,12 +82,12 @@ def logout_view(request):
 
 
 @login_required(login_url='login')
-def add_blogs(request): # hoặc def add_blog(request) tùy tên bạn đặt
+def add_blogs(request):
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
-            post.author = request.user # Lưu tên người dùng đang đăng nhập
+            post.author = request.user  # Tự động gán người đăng
             post.save()
             return redirect('post_detail', id=post.id)
     else:

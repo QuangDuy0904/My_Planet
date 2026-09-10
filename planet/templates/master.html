@@ -15,8 +15,7 @@
 
       {% if user.is_authenticated %}
         | <a href="{% url 'post_list' %}">BÀI VIẾT</a>
-        <!-- Nút ĐĂNG BÀI cho tất cả người dùng -->
-        | <a href="/add_blogs/">ĐĂNG BÀI</a>
+        | <a href="{% url 'add_blogs' %}">ĐĂNG BÀI</a>
 
         {% if user.is_staff or user.is_superuser %}
           | <a href="{% url 'admin_chat_list' %}">HỘP THƯ HỖ TRỢ</a>
