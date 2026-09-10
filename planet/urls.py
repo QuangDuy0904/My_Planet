@@ -19,5 +19,8 @@ urlpatterns = [
     path('add_blogs/', views.add_blogs, name='add_blog'),
     path('post/<int:id>/edit/', views.edit_post, name='edit_post'),
     path('post/<int:id>/delete/', views.delete_post, name='delete_post'),
+    path('chat/', views.user_chat, name='user_chat'),
+    path('admin-chat/', views.admin_chat_list, name='admin_chat_list'),
+    path('admin-chat/<int:user_id>/', views.admin_chat_detail, name='admin_chat_detail'),
   
 ]

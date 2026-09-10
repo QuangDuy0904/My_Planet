@@ -37,3 +37,15 @@ class Post1(models.Model):
 
     def __str__(self):
         return self.title
+
+class SupportMessage(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='support_messages')
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_messages')
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['created_at']
+
+    def __str__(self):
+        return f"{self.sender.username} -> {self.user.username}: {self.message[:30]}"

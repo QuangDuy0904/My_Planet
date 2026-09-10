@@ -1,0 +1,20 @@
+{% extends 'master.html' %}
+{% block title %}Hộp Thư Hỗ Trợ Khách Hàng{% endblock %}
+
+{% block content %}
+<div style="max-width: 650px; margin: 40px auto; background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+  <h2 style="margin-bottom: 20px; font-size: 20px;">Danh sách tin nhắn từ thành viên</h2>
+  <div style="display: flex; flex-direction: column; gap: 10px;">
+    {% for u in chat_users %}
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border: 1px solid #e1e4e8; border-radius: 6px;">
+        <div>
+          <strong>{{ u.username }}</strong> ({{ u.email }})
+        </div>
+        <a href="{% url 'admin_chat_detail' u.id %}" style="padding: 6px 14px; background: #007bff; color: #fff; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 13px;">Nhắn tin</a>
+      </div>
+    {% empty %}
+      <p style="text-align: center; color: #888;">Chưa có thành viên nào nhắn tin hỗ trợ.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
