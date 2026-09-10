@@ -129,7 +129,7 @@
         <h3><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h3>
         <p class="post-date">
           Đăng bởi: <strong style="color: #0b5ed7;">{% if post.author %}{{ post.author.username }}{% else %}Admin{% endif %}</strong> 
-          • Ngày đăng: {{ post.date|default:post.created_at|date:"H:i - d/m/Y" }}
+          • Ngày đăng: {{ post.date|date:"H:i - d/m/Y" }}
         </p>
       </div>
 

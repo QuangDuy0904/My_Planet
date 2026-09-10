@@ -122,10 +122,10 @@
 <div class="post-detail-box">
   <h1>{{ post.title }}</h1>
   
-  <!-- Hiển thị tên người đăng và chuẩn giờ Việt Nam -->
+  <!-- Đã sửa ngày đăng dùng trực tiếp post.date -->
   <p style="color: #666; font-size: 14px; margin-bottom: 20px;">
     Đăng bởi: <strong style="color: #0b5ed7;">{% if post.author %}{{ post.author.username }}{% else %}Admin{% endif %}</strong> 
-    • Ngày đăng: <span>{{ post.date|default:post.created_at|date:"H:i - d/m/Y" }}</span>
+    • Ngày đăng: <span>{{ post.date|date:"H:i - d/m/Y" }}</span>
   </p>
 
   {% if post.image %}
