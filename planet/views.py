@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import user_passes_test
 from .forms import PostForm
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from .forms import RegistrationForm, BlogPostForm
-from .models import Planet, Post1
+from .models import Planet, Post1, Comment
 from .models import SupportMessage
 from django.contrib.auth.models import User
 
@@ -110,9 +110,44 @@ def post_list(request):
 
 @login_required(login_url='login')
 def post_detail(request, id):
-    # Code xem chi tiết 1 bài viết của bạn...
     post = get_object_or_404(Post1, id=id)
-    return render(request, 'post_detail.html', {'post': post})
+
+    # Xử lý gửi bình luận
+    if request.method == 'POST' and 'comment_submit' in request.POST:
+        if not request.user.is_authenticated:
+            return redirect('login')
+        content = request.POST.get('content', '').strip()
+        if content:
+            Comment.objects.create(
+                post=post,
+                user=request.user,
+                content=content
+            )
+        return redirect('post_detail', id=post.id)
+
+    # Kiểm tra xem user hiện tại đã thả tim bài này chưa
+    is_liked = False
+    if request.user.is_authenticated:
+        is_liked = post.likes.filter(id=request.user.id).exists()
+
+    comments = post.comments.all()
+
+    context = {
+        'post': post,
+        'comments': comments,
+        'is_liked': is_liked,
+    }
+    return render(request, 'post_detail.html', context)
+
+# View xử lý bấm Tim/Bỏ tim
+@login_required(login_url='login')
+def like_post(request, id):
+    post = get_object_or_404(Post1, id=id)
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+    else:
+        post.likes.add(request.user)
+    return redirect('post_detail', id=post.id)
 
 @user_passes_test(lambda u: u.is_staff or u.is_superuser, login_url='login')
 def edit_post(request, id):

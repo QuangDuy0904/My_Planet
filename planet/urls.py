@@ -22,5 +22,6 @@ urlpatterns = [
     path('chat/', views.user_chat, name='user_chat'),
     path('admin-chat/', views.admin_chat_list, name='admin_chat_list'),
     path('admin-chat/<int:user_id>/', views.admin_chat_detail, name='admin_chat_detail'),
+    path('posts/<int:id>/like/', views.like_post, name='like_post'),
   
 ]

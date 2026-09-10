@@ -2,16 +2,124 @@
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
-<div
-  style="
+<style>
+  .post-detail-box {
     max-width: 800px;
     margin: 30px auto;
     padding: 25px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    border: 1px solid #e1e4e8;
+    border-radius: 12px;
     background: #fff;
-  "
->
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  }
+
+  /* Nút Tim */
+  .interaction-bar {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-top: 1px solid #e9ecef;
+    border-bottom: 1px solid #e9ecef;
+    margin: 25px 0;
+  }
+
+  .like-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid #e1e4e8;
+    background: #f8f9fa;
+    color: #495057;
+    transition: all 0.2s ease;
+  }
+
+  .like-btn.active {
+    background-color: #ffebe9;
+    border-color: #ff8182;
+    color: #cf222e;
+  }
+
+  .like-btn:hover {
+    transform: scale(1.03);
+  }
+
+  /* Khu vực bình luận */
+  .comment-section {
+    margin-top: 30px;
+  }
+
+  .comment-form textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    box-sizing: border-box;
+    font-size: 14px;
+    outline: none;
+    resize: vertical;
+  }
+
+  .comment-form textarea:focus {
+    border-color: #0b5ed7;
+  }
+
+  .comment-btn {
+    margin-top: 10px;
+    padding: 8px 20px;
+    background: #0b5ed7;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .comment-btn:hover {
+    background: #0a58ca;
+  }
+
+  .comment-list {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .comment-item {
+    background-color: #f8f9fa;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border-left: 3px solid #0b5ed7;
+  }
+
+  .comment-user {
+    font-weight: bold;
+    font-size: 14px;
+    color: #212529;
+  }
+
+  .comment-time {
+    font-size: 11px;
+    color: #6c757d;
+    margin-left: 8px;
+  }
+
+  .comment-text {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #333;
+    line-height: 1.5;
+  }
+</style>
+
+<div class="post-detail-box">
   <h1>{{ post.title }}</h1>
   <p style="color: #888; font-size: 14px">
     Ngày đăng: {{ post.date|date:"d/m/Y H:i" }}
@@ -44,7 +152,6 @@
   </div>
   {% endif %}
 
-  <!-- Khung phát video YouTube cấu hình chống Lỗi 153 -->
   {% if post.youtube_embed_url %}
   <div
     style="
@@ -79,8 +186,46 @@
     {{ post.body }}
   </div>
 
+  <!-- Thanh Thả Tim -->
+  <div class="interaction-bar">
+    <a href="{% url 'like_post' post.id %}" class="like-btn {% if is_liked %}active{% endif %}">
+      {% if is_liked %}❤️ Đã thích{% else %}🤍 Thích{% endif %} ({{ post.total_likes }})
+    </a>
+  </div>
+
+  <!-- Khu vực Bình luận -->
+  <div class="comment-section">
+    <h3 style="font-size: 18px; margin-bottom: 15px;">Bình luận ({{ comments.count }})</h3>
+
+    {% if user.is_authenticated %}
+      <form method="POST" class="comment-form">
+        {% csrf_token %}
+        <textarea name="content" placeholder="Chia sẻ cảm nghĩ của bạn..." required></textarea>
+        <button type="submit" name="comment_submit" class="comment-btn">Gửi bình luận</button>
+      </form>
+    {% else %}
+      <p style="color: #6c757d; font-size: 14px;">
+        Vui lòng <a href="{% url 'login' %}" style="color: #0b5ed7;">đăng nhập</a> để bình luận và thả tim.
+      </p>
+    {% endif %}
+
+    <div class="comment-list">
+      {% for c in comments %}
+        <div class="comment-item">
+          <div>
+            <span class="comment-user">{{ c.user.username }}</span>
+            <span class="comment-time">{{ c.created_at|date:"d/m/Y H:i" }}</span>
+          </div>
+          <div class="comment-text">{{ c.content }}</div>
+        </div>
+      {% empty %}
+        <p style="color: #8c959f; font-size: 14px;">Chưa có bình luận nào. Hãy là người đầu tiên!</p>
+      {% endfor %}
+    </div>
+  </div>
+
   <p style="margin-top: 30px">
-    <a href="{% url 'post_list' %}">&larr; Quay lại danh sách bài viết</a>
+    <a href="{% url 'post_list' %}" style="color: #555; text-decoration: none;">&larr; Quay lại danh sách bài viết</a>
   </p>
 </div>
 {% endblock %}

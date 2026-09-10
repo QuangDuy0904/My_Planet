@@ -37,6 +37,13 @@ class Post1(models.Model):
     audio = models.FileField(upload_to='music/', null=True, blank=True, storage=RawMediaCloudinaryStorage())
     youtube_url = models.URLField(max_length=500, null=True, blank=True)
 
+    # Thêm quan hệ nhiều-nhiều để lưu danh sách user đã thả tim
+    likes = models.ManyToManyField(User, related_name='liked_posts', blank=True)
+
+    @property
+    def total_likes(self):
+        return self.likes.count()
+
     @property
     def youtube_embed_url(self):
         if not self.youtube_url:
@@ -46,6 +53,21 @@ class Post1(models.Model):
             return f"https://www.youtube.com/embed/{match.group(1)}"
         return None
 
+    def __str__(self):
+        return self.title
+
+# Model Bình luận
+class Comment(models.Model):
+    post = models.ForeignKey(Post1, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.user.username} bình luận trên {self.post.title}"
     def __str__(self):
         return self.title
 
