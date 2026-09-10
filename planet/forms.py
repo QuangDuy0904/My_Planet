@@ -49,12 +49,27 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post1
         fields = ['title', 'body', 'image', 'audio', 'youtube_url']
+        widgets = {
+            'title': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Nhập tiêu đề bài viết...'
+            }),
+            'body': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 6,
+                'placeholder': 'Viết nội dung bài viết của bạn tại đây...'
+            }),
+            'youtube_url': forms.URLInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'https://www.youtube.com/watch?v=...'
+            }),
+        }
         labels = {
             'title': 'Tiêu đề',
             'body': 'Nội dung',
-            'image': 'Hình ảnh',
-            'audio': 'File âm thanh',
-            'youtube_url': 'Đường dẫn YouTube',
+            'image': 'Ảnh minh họa',
+            'audio': 'File âm thanh (MP3)',
+            'youtube_url': 'Link video YouTube',
         }
 
 # Giữ nguyên nếu bạn có dùng ở nơi khác

@@ -37,6 +37,7 @@
     background: #f8f9fa;
     color: #495057;
     transition: all 0.2s ease;
+    outline: none;
   }
 
   .like-btn.active {
@@ -122,7 +123,6 @@
 <div class="post-detail-box">
   <h1>{{ post.title }}</h1>
   
-  <!-- Đã sửa ngày đăng dùng trực tiếp post.date -->
   <p style="color: #666; font-size: 14px; margin-bottom: 20px;">
     Đăng bởi: <strong style="color: #0b5ed7;">{% if post.author %}{{ post.author.username }}{% else %}Admin{% endif %}</strong> 
     • Ngày đăng: <span>{{ post.date|date:"H:i - d/m/Y" }}</span>
@@ -189,11 +189,21 @@
     {{ post.body }}
   </div>
 
-  <!-- Thanh Thả Tim -->
+  <!-- Nút Thả Tim lưu post.id và xác thực qua data-* attributes -->
   <div class="interaction-bar">
-    <a href="{% url 'like_post' post.id %}" class="like-btn {% if is_liked %}active{% endif %}">
-      {% if is_liked %}❤️ Đã thích{% else %}🤍 Thích{% endif %} ({{ post.total_likes }})
-    </a>
+    <button 
+      type="button" 
+      id="like-btn" 
+      class="like-btn {% if is_liked %}active{% endif %}" 
+      data-post-id="{{ post.id }}"
+      data-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}"
+      data-login-url="{% url 'login' %}"
+      data-csrf="{{ csrf_token }}"
+      onclick="toggleLike()"
+    >
+      <span id="like-icon">{% if is_liked %}❤️ Đã thích{% else %}🤍 Thích{% endif %}</span>
+      (<span id="like-count">{{ post.total_likes }}</span>)
+    </button>
   </div>
 
   <!-- Khu vực Bình luận -->
@@ -231,4 +241,52 @@
     <a href="{% url 'post_list' %}" style="color: #555; text-decoration: none;">&larr; Quay lại danh sách bài viết</a>
   </p>
 </div>
+
+<script>
+  function toggleLike() {
+    const likeBtn = document.getElementById('like-btn');
+    const postId = likeBtn.getAttribute('data-post-id');
+    const isAuthenticated = likeBtn.getAttribute('data-authenticated') === 'true';
+    const loginUrl = likeBtn.getAttribute('data-login-url');
+    const csrfToken = likeBtn.getAttribute('data-csrf');
+
+    if (!isAuthenticated) {
+      window.location.href = loginUrl;
+      return;
+    }
+
+    fetch('/posts/' + postId + '/like/', {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': csrfToken,
+        'X-Requested-With': 'XMLHttpRequest',
+      }
+    })
+    .then(function(response) {
+      if (response.redirected) {
+        window.location.href = response.url;
+        return;
+      }
+      return response.json();
+    })
+    .then(function(data) {
+      if (!data) return;
+      const likeIcon = document.getElementById('like-icon');
+      const likeCount = document.getElementById('like-count');
+
+      likeCount.textContent = data.total_likes;
+
+      if (data.liked) {
+        likeBtn.classList.add('active');
+        likeIcon.textContent = '❤️ Đã thích';
+      } else {
+        likeBtn.classList.remove('active');
+        likeIcon.textContent = '🤍 Thích';
+      }
+    })
+    .catch(function(error) {
+      console.error('Lỗi like:', error);
+    });
+  }
+</script>
 {% endblock %}
