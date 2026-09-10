@@ -87,23 +87,13 @@ def add_blogs(request):
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
-            post.author = request.user
+            post.author = request.user  # Gán đúng user đang đăng nhập
             post.save()
+            form.save_m2m()
             return redirect('post_detail', id=post.id)
     else:
         form = PostForm()
     
-    return render(request, 'add_blog.html', {'form': form})
-
-@login_required(login_url='login')
-def add_blogs(request):
-    if request.method == 'POST':
-        form = PostForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('post_list')
-    else:
-        form = PostForm()
     return render(request, 'add_blog.html', {'form': form})
 
 @login_required(login_url='login')
