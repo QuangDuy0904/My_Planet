@@ -55,7 +55,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    'planet.middleware.AutoLogoutOnReloadMiddleware',
 ]
 
 ROOT_URLCONF = 'hello_world.urls'

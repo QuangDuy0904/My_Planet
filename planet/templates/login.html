@@ -20,14 +20,27 @@
       <div class="inner">
         <section class="container box feature1">
           <div class="row">
-            <a href="/"><i style="font-size: 30px" class="fas fa-home"></i></a>
+            <a href="{% url 'main' %}"><i style="font-size: 30px" class="fas fa-home"></i></a>
           </div>
           <h1>ĐĂNG NHẬP TÀI KHOẢN</h1>
 
-          <form action="/login/" method="POST" class="box">
-            {% csrf_token %} {% for key, value in form.errors.items %}
-            <p style="color: red">{{ value }}</p>
+          <!-- Hiển thị thông báo (Thành công từ Đăng ký hoặc Báo lỗi khi sai pass) -->
+          {% if messages %}
+            {% for message in messages %}
+              {% if message.tags == 'error' %}
+                <p style="padding: 10px; border-radius: 4px; font-weight: bold; text-align: center; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;">
+                  {{ message }}
+                </p>
+              {% else %}
+                <p style="padding: 10px; border-radius: 4px; font-weight: bold; text-align: center; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;">
+                  {{ message }}
+                </p>
+              {% endif %}
             {% endfor %}
+          {% endif %}
+
+          <form action="{% url 'login' %}" method="POST" class="box">
+            {% csrf_token %}
 
             <div class="form-input">
               <label for="username">Username:</label>
@@ -37,6 +50,7 @@
                 id="username"
                 name="username"
                 required
+                placeholder="Nhập tên đăng nhập"
               />
             </div>
 
@@ -48,13 +62,13 @@
                 id="password"
                 name="password"
                 required
+                placeholder="Nhập mật khẩu"
               />
             </div>
 
-            <input type="hidden" name="next" value="/" />
             <input type="submit" value="ĐĂNG NHẬP" />
             <br /><br />
-            <span>Or <a href="/register/">Đăng Ký</a></span>
+            <span>Chưa có tài khoản? <a href="{% url 'register' %}">Đăng Ký</a></span>
           </form>
         </section>
       </div>

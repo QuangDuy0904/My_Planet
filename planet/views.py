@@ -65,10 +65,10 @@ def login_view(request):
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            auth_login(request, user)  # Dùng auth_login ở đây
+            auth_login(request, user)
             return redirect('main')
         else:
-            messages.error(request, "Tài khoản hoặc mật khẩu không chính xác.")
+            messages.error(request, "Tài khoản hoặc mật khẩu không chính xác!")
 
     return render(request, 'login.html')
 
