@@ -143,38 +143,58 @@ def user_chat(request):
         msg = request.POST.get('message', '').strip()
         if msg:
             SupportMessage.objects.create(
-                user=request.user,       # Cuộc trò chuyện thuộc về user này
-                sender=request.user,     # Người gửi là chính user
-                message=msg
+                user=request.user,
+                sender=request.user,
+                message=msg,
+                is_read=False
             )
         return redirect('user_chat')
+
+    # Đánh dấu các tin nhắn của Admin gửi cho User là đã đọc khi User mở khung chat
+    SupportMessage.objects.filter(user=request.user).exclude(sender=request.user).update(is_read=True)
 
     messages_list = SupportMessage.objects.filter(user=request.user)
     return render(request, 'user_chat.html', {'messages_list': messages_list})
 
+# View Danh sách người chat (Admin)
 @login_required(login_url='login')
 def admin_chat_list(request):
     if not (request.user.is_staff or request.user.is_superuser):
         return redirect('user_chat')
 
-    # Lấy danh sách các User đã từng nhắn tin
     user_ids = SupportMessage.objects.values_list('user', flat=True).distinct()
     users = User.objects.filter(id__in=user_ids)
-    return render(request, 'admin_chat_list.html', {'chat_users': users})
 
+    # Đếm số tin nhắn chưa đọc từ từng thành viên
+    chat_list_data = []
+    for u in users:
+        unread_count = SupportMessage.objects.filter(user=u, sender=u, is_read=False).count()
+        chat_list_data.append({
+            'user': u,
+            'unread_count': unread_count
+        })
+
+    return render(request, 'admin_chat_list.html', {'chat_list_data': chat_list_data})
+
+# View Chi tiết khung chat (Admin)
 @login_required(login_url='login')
 def admin_chat_detail(request, user_id):
     if not (request.user.is_staff or request.user.is_superuser):
         return redirect('user_chat')
 
     chat_user = get_object_or_404(User, id=user_id)
+
+    # Đánh dấu toàn bộ tin nhắn của người này gửi là ĐÃ ĐỌC
+    SupportMessage.objects.filter(user=chat_user, sender=chat_user, is_read=False).update(is_read=True)
+
     if request.method == 'POST':
         msg = request.POST.get('message', '').strip()
         if msg:
             SupportMessage.objects.create(
-                user=chat_user,          # Thuộc cuộc trò chuyện của user đó
-                sender=request.user,     # Người gửi là Admin
-                message=msg
+                user=chat_user,
+                sender=request.user,
+                message=msg,
+                is_read=False
             )
         return redirect('admin_chat_detail', user_id=chat_user.id)
 

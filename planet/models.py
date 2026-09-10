@@ -42,6 +42,7 @@ class SupportMessage(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='support_messages')
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_messages')
     message = models.TextField()
+    is_read = models.BooleanField(default=False)  # Đánh dấu đã đọc
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

@@ -1,19 +1,73 @@
 {% extends 'master.html' %}
-{% block title %}Hộp Thư Hỗ Trợ Khách Hàng{% endblock %}
+{% block title %}Hộp Thư Hỗ Trợ{% endblock %}
 
 {% block content %}
-<div style="max-width: 650px; margin: 40px auto; background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
-  <h2 style="margin-bottom: 20px; font-size: 20px;">Danh sách tin nhắn từ thành viên</h2>
-  <div style="display: flex; flex-direction: column; gap: 10px;">
-    {% for u in chat_users %}
-      <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border: 1px solid #e1e4e8; border-radius: 6px;">
-        <div>
-          <strong>{{ u.username }}</strong> ({{ u.email }})
+<style>
+  .chat-list-wrapper {
+    max-width: 700px;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+  .user-chat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border: 1px solid #e1e4e8;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    background: #fdfdfd;
+    transition: all 0.2s ease;
+  }
+  .user-chat-row:hover {
+    background: #f8f9fa;
+    border-color: #d0d7de;
+  }
+  .unread-badge {
+    background-color: #dc3545;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 12px;
+    margin-left: 8px;
+    display: inline-block;
+  }
+  .chat-open-btn {
+    padding: 8px 18px;
+    background: #007bff;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 13px;
+    border: none;
+    cursor: pointer;
+  }
+  .chat-open-btn:hover {
+    background: #0056b3;
+  }
+</style>
+
+<div class="chat-list-wrapper">
+  <h2 style="margin-bottom: 25px; font-size: 22px; color: #333;">Danh sách tin nhắn từ thành viên</h2>
+  
+  <div style="display: flex; flex-direction: column;">
+    {% for item in chat_list_data %}
+      <div class="user-chat-row">
+        <div style="display: flex; align-items: center;">
+          <strong style="color: #24292f; font-size: 15px;">{{ item.user.username }}</strong>
+          {% if item.unread_count > 0 %}
+            <span class="unread-badge">{{ item.unread_count }} tin mới</span>
+          {% endif %}
         </div>
-        <a href="{% url 'admin_chat_detail' u.id %}" style="padding: 6px 14px; background: #007bff; color: #fff; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 13px;">Nhắn tin</a>
+        <a href="{% url 'admin_chat_detail' item.user.id %}" class="chat-open-btn">Nhắn tin</a>
       </div>
     {% empty %}
-      <p style="text-align: center; color: #888;">Chưa có thành viên nào nhắn tin hỗ trợ.</p>
+      <p style="text-align: center; color: #8c959f; padding: 40px 0;">Chưa có thành viên nào nhắn tin.</p>
     {% endfor %}
   </div>
 </div>
