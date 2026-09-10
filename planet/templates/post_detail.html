@@ -106,7 +106,7 @@
   }
 
   .comment-time {
-    font-size: 11px;
+    font-size: 12px;
     color: #6c757d;
     margin-left: 8px;
   }
@@ -121,8 +121,11 @@
 
 <div class="post-detail-box">
   <h1>{{ post.title }}</h1>
-  <p style="color: #888; font-size: 14px">
-    Ngày đăng: {{ post.date|date:"d/m/Y H:i" }}
+  
+  <!-- Hiển thị tên người đăng và chuẩn giờ Việt Nam -->
+  <p style="color: #666; font-size: 14px; margin-bottom: 20px;">
+    Đăng bởi: <strong style="color: #0b5ed7;">{% if post.author %}{{ post.author.username }}{% else %}Admin{% endif %}</strong> 
+    • Ngày đăng: <span>{{ post.date|default:post.created_at|date:"H:i - d/m/Y" }}</span>
   </p>
 
   {% if post.image %}
@@ -214,7 +217,7 @@
         <div class="comment-item">
           <div>
             <span class="comment-user">{{ c.user.username }}</span>
-            <span class="comment-time">{{ c.created_at|date:"d/m/Y H:i" }}</span>
+            <span class="comment-time">{{ c.created_at|date:"H:i - d/m/Y" }}</span>
           </div>
           <div class="comment-text">{{ c.content }}</div>
         </div>

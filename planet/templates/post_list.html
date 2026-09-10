@@ -126,9 +126,11 @@
   {% for post in posts %}
     <div class="post-card-item">
       <div class="post-info">
-        <!-- Bấm vào dòng chữ xanh này sẽ vào trang chi tiết để xem toàn bộ video, ảnh và audio -->
         <h3><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h3>
-        <p class="post-date">Ngày đăng: {{ post.date|date:"d/m/Y H:i" }}</p>
+        <p class="post-date">
+          Đăng bởi: <strong style="color: #0b5ed7;">{% if post.author %}{{ post.author.username }}{% else %}Admin{% endif %}</strong> 
+          • Ngày đăng: {{ post.date|default:post.created_at|date:"H:i - d/m/Y" }}
+        </p>
       </div>
 
       {% if user.is_staff or user.is_superuser %}

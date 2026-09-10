@@ -30,14 +30,13 @@ class Post(models.Model):
         return reverse('post_detail', args=[str(self.id)])
 
 class Post1(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts', null=True, blank=True)
     title = models.CharField(max_length=100)
     body = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='posts/', null=True, blank=True)
     audio = models.FileField(upload_to='music/', null=True, blank=True, storage=RawMediaCloudinaryStorage())
     youtube_url = models.URLField(max_length=500, null=True, blank=True)
-
-    # Thêm quan hệ nhiều-nhiều để lưu danh sách user đã thả tim
     likes = models.ManyToManyField(User, related_name='liked_posts', blank=True)
 
     @property

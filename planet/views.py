@@ -80,12 +80,14 @@ def logout_view(request):
     return redirect('main')
 
 
-@user_passes_test(lambda u: u.is_staff, login_url='/login/')
-def add_blogs(request):
+@login_required(login_url='login')
+def add_blog(request):
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            post = form.save(commit=False)
+            post.author = request.user  # Gán người đăng là tài khoản hiện tại
+            post.save()
             return redirect('post_list')
     else:
         form = PostForm()

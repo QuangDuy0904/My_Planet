@@ -179,5 +179,6 @@ STORAGES = {
         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
 }
-
+TIME_ZONE = 'Asia/Ho_Chi_Minh'
+USE_TZ = True
 # Xóa bỏ cảnh báo W004 nếu thư mục static chưa tồn tại
