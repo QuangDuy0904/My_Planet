@@ -8,7 +8,7 @@ from .models import Post1
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
 from .forms import PostForm
-
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from .forms import RegistrationForm, BlogPostForm
 from .models import Planet, Post1
 
@@ -65,18 +65,17 @@ def login_view(request):
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            login(request, user)
+            auth_login(request, user)  # Dùng auth_login ở đây
             return redirect('main')
         else:
-            # Báo lỗi nếu sai mật khẩu/tài khoản
-            from django.contrib import messages
             messages.error(request, "Tài khoản hoặc mật khẩu không chính xác.")
 
     return render(request, 'login.html')
 
 def logout_view(request):
-    logout(request)
-    return redirect('login')
+    auth_logout(request)
+    return redirect('main')
+
 
 @user_passes_test(lambda u: u.is_staff, login_url='/login/')
 def add_blogs(request):
