@@ -11,19 +11,19 @@
   <body>
     <div class="topnav">
       <a href="{% url 'main' %}">HOME</a> |
-      <a href="{% url 'planets' %}">MEMBERS</a> |
-      <a href="{% url 'post_list' %}">BÀI VIẾT</a>
+      <a href="{% url 'planets' %}">MEMBERS</a>
 
-      {% if user.is_authenticated %}
+        {% if user.is_authenticated %}
+       | <a href="{% url 'post_list' %}">BÀI VIẾT</a>
         {% if user.is_staff or user.is_superuser %}
-          | <a href="{% url 'add_blog' %}">ĐĂNG BÀI</a>
+      | <a href="{% url 'add_blog' %}">ĐĂNG BÀI</a>
+         {% endif %}
+    |    <span>Xin chào, <strong>{% if user.is_superuser %}Admin{% else %}{{ user.username }}{% endif %}</strong></span>
+    |    <a href="{% url 'logout' %}" style="color: #dc3545;">ĐĂNG XUẤT</a>
+         {% else %}
+    |    <a href="{% url 'login' %}">ĐĂNG NHẬP</a>
+    |    <a href="{% url 'register' %}">ĐĂNG KÝ</a>
         {% endif %}
-        | <span>Xin chào, <strong>{% if user.is_superuser %}Admin{% else %}{{ user.username }}{% endif %}</strong></span>
-        | <a href="{% url 'logout' %}" style="color: #dc3545;">ĐĂNG XUẤT</a>
-      {% else %}
-        | <a href="{% url 'login' %}">ĐĂNG NHẬP</a>
-        | <a href="{% url 'register' %}">ĐĂNG KÝ</a>
-      {% endif %}
     </div>
 
     {% block content %}{% endblock %}

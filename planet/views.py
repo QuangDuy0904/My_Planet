@@ -12,6 +12,7 @@ from django.contrib.auth import authenticate, login as auth_login, logout as aut
 from .forms import RegistrationForm, BlogPostForm
 from .models import Planet, Post1
 
+
 def planet(request):
     myplanet = Planet.objects.all().values()
     template = loader.get_template('all_planet.html')
@@ -99,10 +100,14 @@ def add_blogs(request):
         form = PostForm()
     return render(request, 'add_blog.html', {'form': form})
 
+@login_required(login_url='login')
 def post_list(request):
-    posts = Post1.objects.all().order_by('-date')
+    # Code xem danh sách bài viết của bạn...
+    posts = Post1.objects.all()
     return render(request, 'post_list.html', {'posts': posts})
 
+@login_required(login_url='login')
 def post_detail(request, id):
+    # Code xem chi tiết 1 bài viết của bạn...
     post = get_object_or_404(Post1, id=id)
     return render(request, 'post_detail.html', {'post': post})
