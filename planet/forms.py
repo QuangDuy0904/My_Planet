@@ -48,10 +48,13 @@ class RegistrationForm(forms.Form):
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post1
-        fields = ['title', 'body', 'image', 'audio']
-        widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nhập tiêu đề bài viết'}),
-            'body': forms.Textarea(attrs={'class': 'form-control', 'rows': 6, 'placeholder': 'Nhập nội dung bài viết'}),
+        fields = ['title', 'body', 'image', 'audio', 'youtube_url']
+        labels = {
+            'title': 'Tiêu đề',
+            'body': 'Nội dung',
+            'image': 'Hình ảnh',
+            'audio': 'File âm thanh',
+            'youtube_url': 'Đường dẫn YouTube',
         }
 
 # Giữ nguyên nếu bạn có dùng ở nơi khác

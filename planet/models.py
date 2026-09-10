@@ -3,6 +3,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.urls import reverse
 from cloudinary_storage.storage import RawMediaCloudinaryStorage
+import re
 
 class Planet(models.Model):
     firstname = models.CharField(max_length=255)
@@ -34,6 +35,16 @@ class Post1(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='posts/', null=True, blank=True)
     audio = models.FileField(upload_to='music/', null=True, blank=True, storage=RawMediaCloudinaryStorage())
+    youtube_url = models.URLField(max_length=500, null=True, blank=True)
+
+    @property
+    def youtube_embed_url(self):
+        if not self.youtube_url:
+            return None
+        match = re.search(r'(?:v=|\/|youtu\.be\/|embed\/|shorts\/)([0-9A-Za-z_-]{11})', self.youtube_url)
+        if match:
+            return f"https://www.youtube.com/embed/{match.group(1)}"
+        return None
 
     def __str__(self):
         return self.title
