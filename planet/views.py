@@ -87,7 +87,7 @@ def add_blogs(request):
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
-            post.author = request.user  # Tự động gán người đăng
+            post.author = request.user
             post.save()
             return redirect('post_detail', id=post.id)
     else:
