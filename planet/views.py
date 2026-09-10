@@ -95,7 +95,7 @@ def add_blogs(request):
     
     return render(request, 'add_blog.html', {'form': form})
 
-@user_passes_test(lambda u: u.is_staff, login_url='/login/')
+@login_required(login_url='login')
 def add_blogs(request):
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)

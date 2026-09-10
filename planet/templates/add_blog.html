@@ -1,33 +1,76 @@
-{% extends 'master.html' %} {% block title %}Add Blog{% endblock %} 
+{% extends 'master.html' %} 
+{% block title %}Thêm bài viết mới{% endblock %} 
+
 {% block content %}
-<div id="main-wrapper">
-  <div class="wrapper style3">
-    <div class="inner">
-      <div
-        class="container"
-        style="max-width: 650px; margin: 0 auto; padding: 20px 0"
-      >
-        <h2 style="margin-bottom: 20px; text-align: center">
-          Thêm bài viết mới
-        </h2>
-        <form
-          action="{% url 'add_blogs' %}"
-          enctype="multipart/form-data"
-          method="POST"
-        >
-          {% csrf_token %} {{ form.media }} {{ form.as_p }}
-          <div style="margin-top: 20px">
-            <button
-              type="submit"
-              class="btn btn-primary"
-              style="padding: 8px 25px"
-            >
-              Add Blog
-            </button>
-          </div>
-        </form>
-      </div>
+<style>
+  .add-blog-container {
+    max-width: 650px;
+    margin: 30px auto;
+    padding: 25px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e1e4e8;
+  }
+  .add-blog-container h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #212529;
+  }
+  .add-blog-container form p {
+    margin-bottom: 16px;
+  }
+  .add-blog-container form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px;
+    color: #333;
+  }
+  .add-blog-container form input[type="text"],
+  .add-blog-container form input[type="url"],
+  .add-blog-container form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-family: inherit;
+  }
+  .add-blog-container form textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+  .btn-submit-blog {
+    width: 100%;
+    padding: 10px 20px;
+    background-color: #0b5ed7;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  .btn-submit-blog:hover {
+    background-color: #0a58ca;
+  }
+</style>
+
+<div class="add-blog-container">
+  <h2>Thêm bài viết mới</h2>
+  
+  <form action="" enctype="multipart/form-data" method="POST">
+    {% csrf_token %} 
+    {{ form.media }} 
+    {{ form.as_p }}
+
+    <div style="margin-top: 25px">
+      <button type="submit" class="btn-submit-blog">
+        Đăng bài viết
+      </button>
     </div>
-  </div>
+  </form>
 </div>
 {% endblock %}
