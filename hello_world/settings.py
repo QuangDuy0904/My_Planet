@@ -55,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'planet.middleware.AutoLogoutOnReloadMiddleware',
 ]
 
 ROOT_URLCONF = 'hello_world.urls'
@@ -181,7 +182,3 @@ STORAGES = {
 }
 
 # Xóa bỏ cảnh báo W004 nếu thư mục static chưa tồn tại
-MIDDLEWARE = [
-    # ... các middleware khác
-    'planet.middleware.AutoLogoutOnReloadMiddleware',
-]
