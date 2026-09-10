@@ -133,7 +133,7 @@
         </p>
       </div>
 
-      {% if user.is_staff or user.is_superuser %}
+      {% if user.is_staff or user.is_superuser or user == post.author %}
         <div class="action-menu">
           <button type="button" class="three-dots-btn" onclick="toggleMenu(this, event)">&#8942;</button>
           <div class="dropdown-box">

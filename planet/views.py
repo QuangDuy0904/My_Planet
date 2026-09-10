@@ -14,7 +14,7 @@ from .models import Planet, Post1, Comment
 from .models import SupportMessage
 from django.contrib.auth.models import User
 from django.http import JsonResponse
-
+from django.http import HttpResponseForbidden
 
 def planet(request):
     myplanet = Planet.objects.all().values()
@@ -150,24 +150,37 @@ def like_post(request, id):
         'total_likes': post.total_likes
     })
 
-@user_passes_test(lambda u: u.is_staff or u.is_superuser, login_url='login')
+@login_required(login_url='login')
 def edit_post(request, id):
     post = get_object_or_404(Post1, id=id)
+
+    # Kiểm tra quyền: Chỉ tác giả bài viết hoặc Admin mới được sửa
+    if post.author != request.user and not (request.user.is_staff or request.user.is_superuser):
+        return HttpResponseForbidden("Bạn không có quyền chỉnh sửa bài viết này!")
+
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             form.save()
-            return redirect('post_list')
+            return redirect('post_detail', id=post.id)
     else:
         form = PostForm(instance=post)
+
     return render(request, 'edit_post.html', {'form': form, 'post': post})
 
-@user_passes_test(lambda u: u.is_staff or u.is_superuser, login_url='login')
+
+@login_required(login_url='login')
 def delete_post(request, id):
     post = get_object_or_404(Post1, id=id)
+
+    # Kiểm tra quyền: Chỉ tác giả bài viết hoặc Admin mới được xóa
+    if post.author != request.user and not (request.user.is_staff or request.user.is_superuser):
+        return HttpResponseForbidden("Bạn không có quyền xóa bài viết này!")
+
     if request.method == 'POST':
         post.delete()
         return redirect('post_list')
+
     return render(request, 'delete_post.html', {'post': post})
 
 @login_required(login_url='login')
