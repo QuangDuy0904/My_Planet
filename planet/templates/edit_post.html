@@ -1,0 +1,16 @@
+{% extends 'master.html' %}
+{% block title %}Chỉnh Sửa Bài Viết{% endblock %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 40px auto; padding: 25px; background: #fff; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+  <h2 style="text-align: center; margin-bottom: 20px;">Chỉnh sửa bài viết</h2>
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div style="margin-top: 20px;">
+      <button type="submit" style="padding: 10px 20px; background: #0b5ed7; color: #fff; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">Lưu bài viết</button>
+      <a href="{% url 'post_list' %}" style="margin-left: 15px; color: #666; text-decoration: none;">Hủy</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

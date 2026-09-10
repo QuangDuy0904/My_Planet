@@ -111,3 +111,23 @@ def post_detail(request, id):
     # Code xem chi tiết 1 bài viết của bạn...
     post = get_object_or_404(Post1, id=id)
     return render(request, 'post_detail.html', {'post': post})
+
+@user_passes_test(lambda u: u.is_staff or u.is_superuser, login_url='login')
+def edit_post(request, id):
+    post = get_object_or_404(Post1, id=id)
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('post_list')
+    else:
+        form = PostForm(instance=post)
+    return render(request, 'edit_post.html', {'form': form, 'post': post})
+
+@user_passes_test(lambda u: u.is_staff or u.is_superuser, login_url='login')
+def delete_post(request, id):
+    post = get_object_or_404(Post1, id=id)
+    if request.method == 'POST':
+        post.delete()
+        return redirect('post_list')
+    return render(request, 'delete_post.html', {'post': post})

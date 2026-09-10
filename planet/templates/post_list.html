@@ -1,50 +1,155 @@
-{% extends "master.html" %} {% block title %}Danh Sách Bài Viết{% endblock %}
-{%block content %}
-<div
-  style="
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 20px;
-    background: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    clear: both;
-  "
->
-  <h1 style="text-align: center; margin-bottom: 25px; color: #333">
-    Danh Sách Bài Viết
-  </h1>
+{% extends 'master.html' %}
 
-  <div style="display: flex; flex-direction: column; gap: 15px">
-    {% for post in posts %}
-    <div
-      style="
-        padding: 16px 20px;
-        border: 1px solid #e2e8f0;
-        border-radius: 6px;
-        background: #fafafa;
-      "
-    >
-      <a
-        href="{% url 'post_detail' post.id %}"
-        style="
-          display: inline-block;
-          font-size: 20px;
-          font-weight: bold;
-          color: #1a73e8;
-          text-decoration: none;
-          margin-bottom: 6px;
-        "
-      >
-        {{ post.title }}
-      </a>
-      <div style="color: #64748b; font-size: 13px">
-        Ngày đăng: {{ post.date|date:"d/m/Y H:i" }}
+{% block title %}Danh Sách Bài Viết{% endblock %}
+
+{% block content %}
+<style>
+  .post-list-container {
+    max-width: 680px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  }
+
+  .post-list-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #222;
+    margin-bottom: 25px;
+  }
+
+  .post-card-item {
+    position: relative;
+    border: 1px solid #e9edf2;
+    background-color: #fcfdfe;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .post-info h3 {
+    margin: 0 0 6px 0;
+    font-size: 18px;
+  }
+
+  .post-info h3 a {
+    color: #0b5ed7;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .post-date {
+    font-size: 13px;
+    color: #6c757d;
+    margin: 0;
+  }
+
+  .action-menu {
+    position: relative;
+    display: inline-block;
+  }
+
+  .three-dots-btn {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    line-height: 1;
+    color: #8c959f;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+
+  .three-dots-btn:hover {
+    background-color: #eaeef2;
+    color: #24292f;
+  }
+
+  .dropdown-box {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 28px;
+    background-color: #ffffff;
+    min-width: 110px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    border-radius: 6px;
+    z-index: 100;
+    border: 1px solid #e1e4e8;
+  }
+
+  .dropdown-box a {
+    color: #24292f;
+    padding: 8px 14px;
+    text-decoration: none;
+    display: block;
+    font-size: 14px;
+  }
+
+  .dropdown-box a:hover {
+    background-color: #f6f8fa;
+  }
+
+  .dropdown-box a.delete-opt {
+    color: #cf222e;
+  }
+
+  .dropdown-box a.delete-opt:hover {
+    background-color: #ffebe9;
+  }
+
+  .action-menu.show .dropdown-box {
+    display: block;
+  }
+</style>
+
+<div class="post-list-container">
+  <div class="post-list-title">Danh Sách Bài Viết</div>
+
+  {% for post in posts %}
+    <div class="post-card-item">
+      <div class="post-info">
+        <h3><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h3>
+        <p class="post-date">Ngày đăng: {{ post.created_at|date:"d/m/Y H:i" }}</p>
       </div>
+
+      {% if user.is_staff or user.is_superuser %}
+        <div class="action-menu">
+          <button type="button" class="three-dots-btn" onclick="toggleMenu(this, event)">&#8942;</button>
+          <div class="dropdown-box">
+            <a href="{% url 'edit_post' post.id %}">✏️ Sửa</a>
+            <a href="{% url 'delete_post' post.id %}" class="delete-opt">🗑️ Xóa</a>
+          </div>
+        </div>
+      {% endif %}
     </div>
-    {% empty %}
-    <p style="text-align: center; color: #888">Chưa có bài viết nào.</p>
-    {% endfor %}
-  </div>
+  {% empty %}
+    <p style="text-align: center; color: #888;">Chưa có bài viết nào.</p>
+  {% endfor %}
 </div>
+
+<script>
+  function toggleMenu(button, event) {
+    event.stopPropagation();
+    const currentMenu = button.parentElement;
+    
+    document.querySelectorAll('.action-menu').forEach(menu => {
+      if (menu !== currentMenu) menu.classList.remove('show');
+    });
+
+    currentMenu.classList.toggle('show');
+  }
+
+  document.addEventListener('click', function() {
+    document.querySelectorAll('.action-menu').forEach(menu => {
+      menu.classList.remove('show');
+    });
+  });
+</script>
 {% endblock %}
