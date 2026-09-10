@@ -42,36 +42,41 @@ def testing(request):
     return HttpResponse(template.render(context, request))
 
 def register(request):
+    if request.user.is_authenticated:
+        return redirect('main')
+
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, "Đăng ký tài khoản thành công! Hãy đăng nhập ngay.")
-            return HttpResponseRedirect('/login/')
+            messages.success(request, "Bạn đã đăng ký tài khoản thành công!")
+            form = RegistrationForm()  # Làm sạch các ô sau khi lưu
     else:
         form = RegistrationForm()
+
     return render(request, 'register.html', {'form': form})
 
-def Login(request):
-    if request.method == "POST":
+def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('main')
+
+    if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-
         user = authenticate(request, username=username, password=password)
-
         if user is not None:
             login(request, user)
-            messages.success(request, "Successfully Logged In")
-            return HttpResponseRedirect("/")
+            return redirect('main')
         else:
-            messages.error(request, "Invalid Credentials")
-            return render(request, 'login.html')
-    return render(request, "login.html")
+            # Báo lỗi nếu sai mật khẩu/tài khoản
+            from django.contrib import messages
+            messages.error(request, "Tài khoản hoặc mật khẩu không chính xác.")
 
-def Logout(request):
+    return render(request, 'login.html')
+
+def logout_view(request):
     logout(request)
-    messages.success(request, "Successfully logged out")
-    return HttpResponseRedirect('/login')
+    return redirect('login')
 
 @user_passes_test(lambda u: u.is_staff, login_url='/login/')
 def add_blogs(request):

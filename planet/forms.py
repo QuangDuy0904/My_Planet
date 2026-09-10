@@ -4,10 +4,22 @@ from django.contrib.auth.models import User
 from .models import Post, Post1  # Thêm Post1
 
 class RegistrationForm(forms.Form):
-    username = forms.CharField(label='Tài khoản')
-    email = forms.EmailField(label='Email')
-    password1 = forms.CharField(label='Mật khẩu', widget=forms.PasswordInput())
-    password2 = forms.CharField(label='Nhập lại mật khẩu', widget=forms.PasswordInput())
+    username = forms.CharField(
+        label='Username:',
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nhập tên đăng nhập'})
+    )
+    email = forms.EmailField(
+        label='Email:',
+        widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Nhập địa chỉ email'})
+    )
+    password1 = forms.CharField(
+        label='Password:',
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Nhập mật khẩu'})
+    )
+    password2 = forms.CharField(
+        label='Confirm Password:',
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Nhập lại mật khẩu'})
+    )
 
     def clean_username(self):
         username = self.cleaned_data.get('username')

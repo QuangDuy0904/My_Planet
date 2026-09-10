@@ -181,3 +181,7 @@ STORAGES = {
 }
 
 # Xóa bỏ cảnh báo W004 nếu thư mục static chưa tồn tại
+MIDDLEWARE = [
+    # ... các middleware khác
+    'planet.middleware.AutoLogoutOnReloadMiddleware',
+]

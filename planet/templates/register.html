@@ -1,63 +1,90 @@
-{% extends "master.html" %} {% block title %}Đăng Ký Tài Khoản{% endblock %}
-{%block content %}
-<form method="POST">
-  {% csrf_token %}
-  <h1>ĐĂNG KÝ TÀI KHOẢN</h1>
+{% extends "master.html" %}
 
-  <!-- Hiển thị lỗi nếu có (ví dụ: trùng tài khoản, mật khẩu không khớp) -->
-  {% if form.errors %}
-  <div
-    style="
-      color: #721c24;
-      background-color: #f8d7da;
-      border: 1px solid #f5c6cb;
-      padding: 10px;
-      margin-bottom: 15px;
-      border-radius: 4px;
-    "
-  >
-    {{ form.errors }}
-  </div>
-  {% endif %}
+{% block title %}Đăng Ký Tài Khoản{% endblock %}
 
-  <label for="id_username">Username:</label>
-  <input
-    type="text"
-    name="username"
-    id="id_username"
-    required
-    placeholder="Nhập tên đăng nhập"
-  />
+{% block content %}
+<div style="max-width: 420px; margin: 40px auto; padding: 30px; background: #ffffff; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+  <form method="POST">
+    {% csrf_token %}
+    <h1 style="text-align: center; font-size: 24px; margin-bottom: 20px; color: #1a253c; font-weight: bold;">ĐĂNG KÝ TÀI KHOẢN</h1>
 
-  <label for="id_email">Email:</label>
-  <input
-    type="email"
-    name="email"
-    id="id_email"
-    required
-    placeholder="Nhập địa chỉ email"
-  />
+    <!-- Thông báo đăng ký thành công -->
+    {% if messages %}
+      {% for message in messages %}
+        <div style="color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb; padding: 12px; margin-bottom: 18px; border-radius: 6px; text-align: center; font-size: 14px;">
+          <strong>{{ message }}</strong>
+          <div style="margin-top: 6px;">
+            <a href="{% url 'login' %}" style="color: #0c5460; font-weight: bold; text-decoration: underline;">👉 Đến trang đăng nhập ngay</a>
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %}
 
-  <label for="id_password1">Password:</label>
-  <input
-    type="password"
-    name="password1"
-    id="id_password1"
-    required
-    placeholder="Nhập mật khẩu"
-  />
+    <!-- Hiển thị lỗi nếu có (ví dụ: trùng tài khoản, mật khẩu không khớp) -->
+    {% if form.errors %}
+      <div style="color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 10px; margin-bottom: 15px; border-radius: 4px; font-size: 14px;">
+        {{ form.errors }}
+      </div>
+    {% endif %}
 
-  <label for="id_password2">Confirm Password:</label>
-  <input
-    type="password"
-    name="password2"
-    id="id_password2"
-    required
-    placeholder="Nhập lại mật khẩu"
-  />
+    <div style="margin-bottom: 12px;">
+      <label for="id_username" style="display: block; font-weight: bold; margin-bottom: 5px;">Username:</label>
+      <input
+        type="text"
+        name="username"
+        id="id_username"
+        required
+        placeholder="Nhập tên đăng nhập"
+        style="width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 6px; box-sizing: border-box;"
+      />
+    </div>
 
-  <button type="submit">ĐĂNG KÝ</button>
+    <div style="margin-bottom: 12px;">
+      <label for="id_email" style="display: block; font-weight: bold; margin-bottom: 5px;">Email:</label>
+      <input
+        type="email"
+        name="email"
+        id="id_email"
+        required
+        placeholder="Nhập địa chỉ email"
+        style="width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 6px; box-sizing: border-box;"
+      />
+    </div>
 
-  <p>Đã có tài khoản? <a href="/login/">Đăng nhập</a></p>
-</form>
+    <div style="margin-bottom: 12px;">
+      <label for="id_password1" style="display: block; font-weight: bold; margin-bottom: 5px;">Password:</label>
+      <input
+        type="password"
+        name="password1"
+        id="id_password1"
+        required
+        placeholder="Nhập mật khẩu"
+        style="width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 6px; box-sizing: border-box;"
+      />
+    </div>
+
+    <div style="margin-bottom: 18px;">
+      <label for="id_password2" style="display: block; font-weight: bold; margin-bottom: 5px;">Confirm Password:</label>
+      <input
+        type="password"
+        name="password2"
+        id="id_password2"
+        required
+        placeholder="Nhập lại mật khẩu"
+        style="width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 6px; box-sizing: border-box;"
+      />
+    </div>
+
+    <button
+      type="submit"
+      style="width: 100%; padding: 12px; background-color: #3b5998; color: #ffffff; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 15px;"
+    >
+      ĐĂNG KÝ
+    </button>
+
+    <p style="text-align: center; margin-top: 15px; font-size: 14px; color: #666;">
+      Đã có tài khoản? <a href="{% url 'login' %}" style="color: #3b5998; font-weight: bold; text-decoration: none;">Đăng nhập</a>
+    </p>
+  </form>
+</div>
 {% endblock %}
