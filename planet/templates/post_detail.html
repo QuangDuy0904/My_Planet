@@ -1,5 +1,7 @@
-{% extends "master.html" %} {% block title %}{{ post.title }}{% endblock %}
-{%block content %}
+{% extends "master.html" %} 
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
 <div
   style="
     max-width: 800px;
@@ -23,7 +25,9 @@
       style="max-width: 100%; height: auto; border-radius: 8px"
     />
   </div>
-  {% endif %} {% if post.audio %}
+  {% endif %} 
+
+  {% if post.audio %}
   <div
     style="
       margin: 20px 0;
@@ -37,6 +41,29 @@
       <source src="{{ post.audio.url }}" type="audio/mpeg" />
       Trình duyệt không hỗ trợ phát âm thanh.
     </audio>
+  </div>
+  {% endif %}
+
+  <!-- Khung phát video YouTube nếu bài viết có link -->
+  {% if post.youtube_embed_url %}
+  <div
+    style="
+      margin: 20px 0;
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 8px;
+      background: #000;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    "
+  >
+    <iframe
+      src="{{ post.youtube_embed_url }}"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen>
+    </iframe>
   </div>
   {% endif %}
 
