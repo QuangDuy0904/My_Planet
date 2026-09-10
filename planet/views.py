@@ -87,9 +87,9 @@ def add_blog(request):
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
-            post.author = request.user  # Gán người đăng là tài khoản hiện tại
+            post.author = request.user  # Tự động gán người đăng là tài khoản hiện tại
             post.save()
-            return redirect('post_list')
+            return redirect('post_detail', id=post.id)
     else:
         form = PostForm()
     return render(request, 'add_blog.html', {'form': form})
