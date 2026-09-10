@@ -12,8 +12,8 @@ urlpatterns = [
 
 
     path('register/', views.register, name="register"),
-    path("login/", views.Login, name="login"),
-    path("logout/", views.Logout, name="logout"),
+    path("login/", views.login, name="login"),
+    path("logout/", views.logout, name="logout"),
     path('posts/', views.post_list, name='post_list'),
     path('posts/<int:id>/', views.post_detail, name='post_detail'),
     path('add_blogs/', views.add_blogs, name='add_blog'),
