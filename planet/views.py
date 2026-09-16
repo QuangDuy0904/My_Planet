@@ -16,13 +16,11 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.http import HttpResponseForbidden
 
+@login_required(login_url='login')
 def planet(request):
-    myplanet = Planet.objects.all().values()
-    template = loader.get_template('all_planet.html')
-    context = {
-        'myplanet': myplanet,
-    }
-    return HttpResponse(template.render(context, request))
+    # Lấy toàn bộ người dùng đã đăng ký, người mới nhất lên đầu
+    members = User.objects.all().order_by('-date_joined')
+    return render(request, 'all_planet.html', {'members': members})
 
 def details(request, id):
     myplanet = Planet.objects.get(id=id)
